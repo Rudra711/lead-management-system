@@ -31,11 +31,11 @@ yarn-error.log*
 # ======================
 # DATABASE / SECRETS
 # ======================
-application.properties
+
 application.yml
 
 # (Optional: allow template)
-!application-example.properties
+
 
 # ======================
 # IDE (INTELLIJ)
