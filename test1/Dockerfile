@@ -2,10 +2,12 @@
 FROM maven:3.9.9-eclipse-temurin-17 AS build
 
 WORKDIR /app
-COPY . .
 
-# ✅ move into correct folder
-WORKDIR /app/test1/test1
+# Copy only backend folder
+COPY test1 ./test1
+
+# Move into correct directory
+WORKDIR /app/test1
 
 RUN mvn clean package -DskipTests
 
@@ -14,7 +16,6 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# ✅ correct path to jar
-COPY --from=build /app/test1/test1/target/*.jar app.jar
+COPY --from=build /app/test1/target/*.jar app.jar
 
 ENTRYPOINT ["java","-jar","app.jar"]
