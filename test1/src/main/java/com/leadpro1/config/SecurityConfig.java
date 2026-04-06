@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.web.cors.*;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
@@ -55,4 +56,5 @@ public class SecurityConfig {
 
         return source;
     }
+
 }
