@@ -26,14 +26,27 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
 
-                // ✅ ENABLE CORS
+                // ❗ disable default login systems
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
+
+                // ✅ stateless JWT
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(
+                                org.springframework.security.config.http.SessionCreationPolicy.STATELESS
+                        )
+                )
+
+                // ✅ CORS
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
+                // ✅ routes
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
 
+                // ✅ JWT filter
                 .addFilterBefore(jwtFilter,
                         org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
 
@@ -46,7 +59,7 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
